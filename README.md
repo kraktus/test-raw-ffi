@@ -7,3 +7,29 @@ The concept is simple, for every public struct, creates a sibling struct `MyStru
 We then create a third struct `StructFFI` in the `cxx::bridge` so it can be passed by value across the language boundarie.
 
 Implement all compatible methods of `Struct` to `StructFFI` by delegating their implementations to `Struct` and converting it on the fly.
+
+Example of the generated C++ code:
+```cpp
+#pragma once
+#include "test-raw-ffi/include/person.h"
+#include <array>
+#include <cstdint>
+#include <type_traits>
+
+struct PersonFFI;
+
+#ifndef CXXBRIDGE1_STRUCT_PersonFFI
+#define CXXBRIDGE1_STRUCT_PersonFFI
+struct PersonFFI final {
+  ::std::uint64_t age;
+  ::std::array<::std::uint32_t, 5> name;
+
+  bool is_adult() const noexcept;
+  void bday() noexcept;
+  ::std::uint64_t compute_hard() const noexcept;
+  using IsRelocatable = ::std::true_type;
+};
+#endif // CXXBRIDGE1_STRUCT_PersonFFI
+
+::PersonFFI person_ffi_new(::std::uint64_t age, ::std::array<::std::uint32_t, 5> name) noexcept;
+```
