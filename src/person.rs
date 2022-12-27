@@ -17,6 +17,11 @@ impl Person {
         self.age += 1
     }
 
+    pub fn bday_value(mut self) -> Self {
+        self.age += 1;
+        self
+    }
+
     pub fn compute_hard(&self) -> u64 {
         let mut f = 0;
         for i in 0..100_000 {

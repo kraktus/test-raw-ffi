@@ -61,8 +61,13 @@ impl PersonFFI {
 
     pub fn bday(&mut self) {
         let mut x = Person::from(self.clone());
-        x.bday();
+        Person::bday(&mut x);
         *self = x.into()
+    }
+
+    pub fn bday_value(mut self) -> Self {
+        let x = Person::from(self.clone());
+        Person::bday_value(x).into()
     }
 
     pub fn compute_hard(&self) -> u64 {
